@@ -15,6 +15,7 @@
 
 $(document).ready(function($){
     let pizzaOrder = getOrder();
+    let dataPrice;
 
 
 
@@ -23,13 +24,15 @@ $(document).ready(function($){
     });
 
     $("#pizza-size").on("change", function(e){
-        $(".toppings-container").removeClass("hidden");
+        $(".toppings-container").removeClass("hidden")
     });
 
     $(".pizza-updater").on("change", function(e){
         let fieldName = $(this).attr('name');
         pizzaOrder[fieldName] = $(this).val();
         saveOrder(pizzaOrder);
+        dataPrice = calcPrice(pizzaOrder, dataPrice);
+        $(".price").html('Total: $' + dataPrice);
     });
 });
 
@@ -50,6 +53,14 @@ function getOrder() {
     return (localStorage['pizza_order'])
         ? JSON.parse(localStorage['pizza_order'])
         : createOrder();
+}
+
+function calcPrice(pizzaOrder, dataPrice) {
+    dataPrice = 0.00;
+    dataPrice = dataPrice + pizzaOrder.toppingsMeat.length*2.00;
+    dataPrice = dataPrice + pizzaOrder.toppingsMisc.length*1.00;
+    console.log(dataPrice);
+    return dataPrice;
 }
 
 // function sayHello() {
