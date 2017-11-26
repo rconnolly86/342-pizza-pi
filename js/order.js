@@ -39,16 +39,16 @@ function updater(pizzaOrder){
             pizzaOrder.size = $(this).val();
         }
         // https://stackoverflow.com/questions/36325509/removing-from-array-values-of-checkboxes-in-jquery
-        if(fieldName == 'toppingsMeat') {
+        if(fieldName == 'toppings-meat') {
             let checked = [];
-            $("input:checkbox[name=toppingsMeat]:checked").each(function(){
+            $("input:checkbox[name=toppings-meat]:checked").each(function(){
                 checked.push($(this).val());
             });
             pizzaOrder.toppingsMeat = checked;
         }
-        if(fieldName == 'toppingsVeg') {
+        if(fieldName == 'toppings-veg') {
             let checked = [];
-            $("input:checkbox[name=toppingsVeg]:checked").each(function(){
+            $("input:checkbox[name=toppings-veg]:checked").each(function(){
                 checked.push($(this).val());
             });
             pizzaOrder.toppingsMisc = checked;
@@ -88,8 +88,8 @@ function populateForm(pizzaOrder){
     if(localStorage.length != 0) {
         $("select[name=crust-choice]").val(pizzaOrder.crust);
         $("select[name=pizza-size]").val(pizzaOrder.size);
-        $("input[name=toppingsMeat]").val(pizzaOrder.toppingsMeat);
-        $("input[name=toppingsVeg]").val(pizzaOrder.toppingsMisc);
+        $("input[name=toppings-meat]").val(pizzaOrder.toppingsMeat);
+        $("input[name=toppings-veg]").val(pizzaOrder.toppingsMisc);
         $("#pizza-size-container").removeClass("hidden");
         $(".toppings-container").removeClass("hidden");
         calcPrice(pizzaOrder);
