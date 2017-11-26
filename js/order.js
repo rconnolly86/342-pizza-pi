@@ -15,25 +15,9 @@
 
 $(document).ready(function($){
     let pizzaOrder = getOrder();
-    let dataPrice;
-
-
-
-    $("#crust-choice").on("change", function(e){
-        $("#pizza-size-container").removeClass("hidden");
-    });
-
-    $("#pizza-size").on("change", function(e){
-        $(".toppings-container").removeClass("hidden")
-    });
-
-    $(".pizza-updater").on("change", function(e){
-        let fieldName = $(this).attr('name');
-        pizzaOrder[fieldName] = $(this).val();
-        saveOrder(pizzaOrder);
-        dataPrice = calcPrice(pizzaOrder, dataPrice);
-        $(".price").html('Total: $' + dataPrice);
-    });
+    populateForm(pizzaOrder);
+    unhider(pizzaOrder);
+    updater(pizzaOrder);
 });
 
 function createOrder() {
@@ -45,6 +29,44 @@ function createOrder() {
     };
 }
 
+function updater(pizzaOrder){
+        $(".pizza-updater").on("change", function(e){
+        let fieldName = $(this).attr('name');
+        if(fieldName == 'crust-choice') {
+            pizzaOrder.crust = $(this).val();
+        }
+        if(fieldName == 'pizza-size') {
+            pizzaOrder.size = $(this).val();
+        }
+        // https://stackoverflow.com/questions/36325509/removing-from-array-values-of-checkboxes-in-jquery
+        if(fieldName == 'toppingsMeat') {
+            let checked = [];
+            $("input:checkbox[name=toppingsMeat]:checked").each(function(){
+                checked.push($(this).val());
+            });
+            pizzaOrder.toppingsMeat = checked;
+        }
+        if(fieldName == 'toppingsVeg') {
+            let checked = [];
+            $("input:checkbox[name=toppingsVeg]:checked").each(function(){
+                checked.push($(this).val());
+            });
+            pizzaOrder.toppingsMisc = checked;
+        }
+        saveOrder(pizzaOrder);
+        calcPrice(pizzaOrder);
+    });
+}
+
+function unhider(pizzaOrder){
+    $("#crust-choice").on("change", function(e){
+        $("#pizza-size-container").removeClass("hidden");
+    });
+
+    $("#pizza-size").on("change", function(e){
+        $(".toppings-container").removeClass("hidden")
+    });
+}
 function saveOrder(pizzaOrder) {
     localStorage.pizza_order = JSON.stringify(pizzaOrder);
 }
@@ -55,12 +77,24 @@ function getOrder() {
         : createOrder();
 }
 
-function calcPrice(pizzaOrder, dataPrice) {
-    dataPrice = 0.00;
-    dataPrice = dataPrice + pizzaOrder.toppingsMeat.length*2.00;
-    dataPrice = dataPrice + pizzaOrder.toppingsMisc.length*1.00;
-    console.log(dataPrice);
-    return dataPrice;
+function calcPrice(pizzaOrder) {
+    let dataPrice = 0.00;
+    dataPrice += pizzaOrder.toppingsMeat.length*2.00;
+    dataPrice += pizzaOrder.toppingsMisc.length*1.00;
+    $(".price").html('Total: $' + dataPrice);
+}
+
+function populateForm(pizzaOrder){
+    if(localStorage.length != 0) {
+        $("select[name=crust-choice]").val(pizzaOrder.crust);
+        $("select[name=pizza-size]").val(pizzaOrder.size);
+        $("input[name=toppingsMeat]").val(pizzaOrder.toppingsMeat);
+        $("input[name=toppingsVeg]").val(pizzaOrder.toppingsMisc);
+        $("#pizza-size-container").removeClass("hidden");
+        $(".toppings-container").removeClass("hidden");
+        calcPrice(pizzaOrder);
+    }
+
 }
 
 // function sayHello() {
