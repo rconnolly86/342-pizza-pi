@@ -79,9 +79,32 @@ function getOrder() {
 
 function calcPrice(pizzaOrder) {
     let dataPrice = 0.00;
+
+    if(pizzaOrder.size == 'sm') {
+        dataPrice += 8.00;
+    }else if(pizzaOrder.size == 'md') {
+        dataPrice += 10.00;
+    } else if(pizzaOrder.size == 'lg') {
+        dataPrice += 12.00;
+    }
+
+    if(pizzaOrder.crust == "deep") {
+        dataPrice += 6.00;
+    }
+
+
     dataPrice += pizzaOrder.toppingsMeat.length*2.00;
     dataPrice += pizzaOrder.toppingsMisc.length*1.00;
-    $(".price").html('Total: $' + dataPrice);
+
+    if(pizzaOrder.toppingsMeat.includes("meat-lover")) {
+        dataPrice += 1.00;
+    }
+
+    if(pizzaOrder.toppingsMeat.includes("bacon")) {
+        dataPrice += 0.50;
+    }
+
+    $(".price").html('Total: $' + dataPrice.toFixed(2));
 }
 
 function populateForm(pizzaOrder){
