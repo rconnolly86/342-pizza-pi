@@ -2,6 +2,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+
     <!--meta charset="utf-8"-->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -50,6 +51,11 @@
                 >
             </div-->
 
+            <!-- https://stackoverflow.com/questions/13550477/twitter-bootstrap-alert-message-close-and-open-again -->
+            <div class="alert alert-warning fade show" style="display: none" role="alert">
+                <a class="close" onclick="$('.alert').hide()">&times;</a>
+                <strong>Deep Dish Pizza is only available in medium and large sizes. Your selection and price has been adjusted accordingly.</strong>
+            </div>
 
             <div class="row">
                 <section class="col-md-4" id="crust-choice-container">
@@ -182,7 +188,6 @@
 
             </h2>
             <hr>
-
         </div> <!-- /container -->
     </form>
 

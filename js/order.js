@@ -80,6 +80,13 @@ function getOrder() {
 function calcPrice(pizzaOrder) {
     let dataPrice = 0.00;
 
+    if(pizzaOrder.crust == "deep" && pizzaOrder.size == "sm") {
+        pizzaOrder.size = "md";
+        document.getElementById('pizza-size').value = 'md';
+        saveOrder(pizzaOrder);
+        $('.alert').show();
+    }
+
     if(pizzaOrder.size == 'sm') {
         dataPrice += 8.00;
     }else if(pizzaOrder.size == 'md') {
@@ -117,6 +124,7 @@ function populateForm(pizzaOrder){
         $(".toppings-container").removeClass("hidden");
         calcPrice(pizzaOrder);
     }
+
 
 }
 
